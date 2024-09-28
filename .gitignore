@@ -26,6 +26,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
+.env.*   # This ensures all variations of the .env file are ignored
 .env*.local
 
 # vercel

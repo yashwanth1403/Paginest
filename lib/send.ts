@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-const domain = "http://localhost:3000/";
+const domain = "https://paginest.vercel.app/";
 
 export async function sendVerification(email: string, token: string) {
   try {

@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-const domain = "https://paginest.vercel.app/";
+const domain = "https://paginest.vercel.app";
 
 export async function sendVerification(email: string, token: string) {
   try {
@@ -26,8 +26,6 @@ export async function sendVerification(email: string, token: string) {
 <p>If you didn't create an account, no further action is required.</p>
 <p>Thank you!</p>`,
     });
-    console.log(result);
-    console.log("email sent");
   } catch (err) {
     console.error("Error sending email:", err);
     throw new Error("Email could not be sent.");

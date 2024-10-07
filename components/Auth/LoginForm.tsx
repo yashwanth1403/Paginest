@@ -15,26 +15,39 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import SocialAuth from "./SocialAuth";
 import FormFooter from "./FormFooter";
+import { LoginSchema } from "@/Types";
+import { login } from "@/actions/route";
+import { useState } from "react";
+import FormError from "./FormError";
 
-const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
-
-type formfield = z.infer<typeof schema>;
+type formfield = z.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
   const form = useForm<formfield>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(LoginSchema),
   });
-
-  function onSubmit(values: formfield) {
-    console.log(values);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  async function onSubmit(values: formfield) {
+    try {
+      setLoading(true);
+      const result = await login(values);
+      if (!result.success) {
+        setError(result.message);
+        setLoading(false);
+      }
+      setSuccess(result.message);
+      setLoading(false);
+    } catch (error) {
+      setError("An unexcepted occured");
+      setLoading(false);
+    }
   }
   return (
     <div className="">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
             name="email"
@@ -61,12 +74,13 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-
+          {error && <FormError message={error} />}
+          {success && <p className="text-green-500 text-md"></p>}
           <Button
             type="submit"
             className="w-full font-bold bg-sky-400 hover:bg-sky-700"
           >
-            login
+            {loading ? "loading...⌛" : "login"}
           </Button>
         </form>
       </Form>

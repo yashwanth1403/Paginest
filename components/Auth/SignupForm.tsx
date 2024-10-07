@@ -24,6 +24,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { CheckCheckIcon } from "lucide-react";
+import {
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 type formfield = z.infer<typeof SignupSchema>;
 
 const SignupForm = () => {
@@ -46,6 +53,7 @@ const SignupForm = () => {
       const result = await OnSignup(values);
       if (result.success) {
         setloading(false);
+        setemailVerificationSent(true);
       } else {
         setloading(false);
         if (result.error) {
@@ -62,17 +70,21 @@ const SignupForm = () => {
     }
   };
   return (
-    <div className="">
+    <div className="text-md">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-1">
           <FormField
             control={form.control}
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel className="text-sm">Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., John Doe 🌟" {...field} />
+                  <Input
+                    placeholder="e.g., John Doe 🌟"
+                    className="p-1.5"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -83,9 +95,13 @@ const SignupForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="text-sm">Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="yourname@email.com ✉️" {...field} />
+                  <Input
+                    placeholder="yourname@email.com ✉️"
+                    className="p-1.5"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage>
                   {errors.email && <p>{errors.email.message}</p>}{" "}
@@ -98,11 +114,12 @@ const SignupForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className="text-sm">Password</FormLabel>
                 <FormControl>
                   <div>
                     <Input
                       placeholder="Password 🔒"
+                      className="p-1.5"
                       {...field}
                       type={PasswordShow ? "text" : "password"}
                       suffix={
@@ -127,13 +144,14 @@ const SignupForm = () => {
           />
 
           {emailVerificationSent ? (
-            <div className="text-green-500 dark:text-green-300 py-2">
-              {" "}
-              <p>✅ Email Verification Sent! 📧</p>
+            <div className="text-green-500 dark:text-green-300 py-2 flex gap-2">
+              <CheckCheckIcon />
+              <p>Email Verification Sent! 📧</p>
             </div>
           ) : (
             ""
           )}
+          <Separator className="my-2" />
           <Button
             type="submit"
             disabled={loading}
@@ -143,8 +161,8 @@ const SignupForm = () => {
           </Button>
         </form>
       </Form>
-      <Separator className="my-3" />
-      <div className="space-y-6">
+      <Separator className="my-2" />
+      <div className="space-y-2">
         <SocialAuth />
         <FormFooter text="Already have an account?" navigate="login" />
       </div>

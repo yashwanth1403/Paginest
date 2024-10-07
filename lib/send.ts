@@ -1,17 +1,33 @@
-import { Resend } from "resend";
-const resend = new Resend(process.env.RESEND_API_KEY);
-const domain = "https://paginest.vercel.app/";
+import nodemailer from "nodemailer";
+
+const domain = "http://localhost:3000/";
+
 export async function sendVerification(email: string, token: string) {
   try {
     const confirmationLink = `${domain}/verify-email-token?token=${token}`;
-    const { data, error } = await resend.emails.send({
-      from: "Paginest <onboarding@resend.dev>",
-      to: [email],
-      subject: "Paginest Email Confirmation",
-      html: `<p>Please verify your email by clicking the following link: <a href="${confirmationLink}">Verify Email</a></p>`,
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // or use 'smtp.sendgrid.net' for SendGrid
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+      },
     });
-    console.log(data);
-    console.log(error);
+    const result = await transporter.sendMail({
+      from: `Paginest <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: "Email Verification link",
+      html: `<h3>Hello,</h3>
+<p>Thank you for signing up! Please verify your email address by clicking the link below:</p>
+<p>
+    <a href="${confirmationLink}" style="display: inline-block; padding: 10px 15px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+        Verify Email
+    </a>
+</p>
+<p>If you didn't create an account, no further action is required.</p>
+<p>Thank you!</p>`,
+    });
+    console.log(result);
+    console.log("email sent");
   } catch (err) {
     console.error("Error sending email:", err);
     throw new Error("Email could not be sent.");

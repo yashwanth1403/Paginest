@@ -17,6 +17,9 @@ export default async function Page({ params }: { params: { userid: string } }) {
   return (
     <div>
       <div className="text-sm md:text-xl p-6">
+        <p>
+          Update in progress: Please hold tight while we work our magic! 🔄✨
+        </p>
         <Image
           src={user.image || " "}
           alt="User profile picture"

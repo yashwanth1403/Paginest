@@ -21,10 +21,6 @@ export default auth(async function middleware(req) {
   if (!isloggedIn && !isAuthRoute && !isPublicRoute) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
-  console.log("isloggedIn", isloggedIn);
-  console.log("isApiPrefix:", isApiPrefix);
-  console.log("isAuthRoute:", isAuthRoute);
-  console.log("isPublicRoute:", isPublicRoute);
 
   return NextResponse.next();
 });

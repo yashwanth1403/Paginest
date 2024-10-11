@@ -20,9 +20,9 @@ export default async function Page({ params }: { params: { userid: string } }) {
         <Image
           src={user.image || " "}
           alt="User profile picture"
-          width={100} // Adjust width as needed
-          height={100} // Adjust height as needed
-          className="rounded-full" // Optional: Add a class for styling
+          width={100}
+          height={100}
+          className="rounded-full"
         />
         welcome <b>{session?.user.name}</b>
         <p>email:{session?.user.email}</p>

@@ -8,10 +8,24 @@ export default auth(async function middleware(req) {
   const isloggedIn = !!req.auth;
   const AuthDetails = req.auth;
   const { pathname } = req.nextUrl;
-  const isAuthRoute = AuthRoutes.some((route) => pathname.startsWith(route));
+  const isAuthRoute = AuthRoutes.includes(pathname);
+  const isPublicRoute = PublicRoutes.includes(pathname);
+  const isApiPrefix = pathname.startsWith(Apiprefix);
+
   if (isloggedIn && isAuthRoute) {
     return NextResponse.redirect(new URL(`${AuthDetails?.user.id}`, req.url));
   }
+  if (isApiPrefix) {
+    return NextResponse.next();
+  }
+  if (!isloggedIn && !isAuthRoute && !isPublicRoute) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+  console.log("isloggedIn", isloggedIn);
+  console.log("isApiPrefix:", isApiPrefix);
+  console.log("isAuthRoute:", isAuthRoute);
+  console.log("isPublicRoute:", isPublicRoute);
+
   return NextResponse.next();
 });
 

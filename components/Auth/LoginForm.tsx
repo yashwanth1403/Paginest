@@ -19,15 +19,17 @@ import { LoginSchema } from "@/Types";
 import { login } from "@/actions/route";
 import { useState } from "react";
 import FormError from "./FormError";
-
+import { useRouter } from "next/navigation";
 type formfield = z.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
+  const router = useRouter();
   const form = useForm<formfield>({
     resolver: zodResolver(LoginSchema),
   });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [isError, setIsError] = useState(false);
   const [loading, setLoading] = useState(false);
   async function onSubmit(values: formfield) {
     try {
@@ -36,10 +38,15 @@ const LoginForm = () => {
       if (!result.success) {
         setError(result.message);
         setLoading(false);
+        setIsError(true);
+      } else {
+        setSuccess(result.message);
+        router.push("/dashboard");
+        setIsError(false);
+        setLoading(false);
       }
-      setSuccess(result.message);
-      setLoading(false);
     } catch (error) {
+      console.error(error);
       setError("An unexcepted occured");
       setLoading(false);
     }
@@ -74,8 +81,8 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-          {error && <FormError message={error} />}
-          {success && <p className="text-green-500 text-md"></p>}
+          {error && isError && <FormError message={error} />}
+          {success && <p className="text-green-500 text-md">{success}</p>}
           <Button
             type="submit"
             className="w-full font-bold bg-sky-400 hover:bg-sky-700"

@@ -5,9 +5,8 @@ const domain = "https://paginest.vercel.app";
 export async function sendVerification(email: string, token: string) {
   try {
     const confirmationLink = `${domain}/verify-email-token?token=${token}`;
-    console.log(confirmationLink);
     const transporter = nodemailer.createTransport({
-      service: "gmail", // or use 'smtp.sendgrid.net' for SendGrid
+      service: "gmail",
       auth: {
         user: process.env.GMAIL_USER,
         pass: process.env.GMAIL_PASS,

@@ -6,12 +6,12 @@ import { PublicRoutes, AuthRoutes, Apiprefix } from "./routes";
 const { auth } = NextAuth(authConfig);
 export default auth(async function middleware(req) {
   const isloggedIn = !!req.auth;
-  const user = req.auth;
-  console.log(user);
-  const { nextUrl } = req;
-  const isPublicRoute = PublicRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
-  const isApiPrefix = Apiprefix.startsWith(nextUrl.pathname);
+  const AuthDetails = req.auth;
+  const { pathname } = req.nextUrl;
+  const isAuthRoute = AuthRoutes.some((route) => pathname.startsWith(route));
+  if (isloggedIn && isAuthRoute) {
+    return NextResponse.redirect(new URL(`${AuthDetails?.user.id}`, req.url));
+  }
   return NextResponse.next();
 });
 

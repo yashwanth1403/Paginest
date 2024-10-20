@@ -6,7 +6,6 @@ import { PublicRoutes, AuthRoutes, Apiprefix } from "./routes";
 const { auth } = NextAuth(authConfig);
 export default auth(async function middleware(req) {
   const isloggedIn = !!req.auth;
-  const AuthDetails = req.auth;
   const { pathname } = req.nextUrl;
   const isAuthRoute = AuthRoutes.includes(pathname);
   const isPublicRoute = PublicRoutes.includes(pathname);

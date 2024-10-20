@@ -11,5 +11,10 @@ export default async function MainLayout({
   if (!session) {
     redirect("/login");
   }
-  return <div className="w-full relative h-full">{children}</div>;
+
+  return (
+    <div className="w-full relative h-full dark:bg-[#191919] text-[#E0E0E0]">
+      {children}
+    </div>
+  );
 }

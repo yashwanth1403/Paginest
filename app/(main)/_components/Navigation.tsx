@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { ChevronsLeft, ChevronsRight, MenuIcon } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
+import UserNav from "./UserNav";
 
 const Navigation = () => {
   const isMobile = useMediaQuery("(max-width:786px)");
@@ -98,7 +99,7 @@ const Navigation = () => {
       <aside
         ref={SidebarRef}
         className={cn(
-          "group/sidebar bg-[#fff6e1] h-full w-60 overflow-y-auto flex flex-col z-[999999] relative transition-all ease-in-out",
+          "group/sidebar bg-[#f7f7f5] dark:bg-[#202020] h-full w-60 overflow-y-auto flex flex-col z-[999999] relative transition-all ease-in-out p-1",
           isMobile && "hidden",
           isCollapse &&
             "h-[80%] translate-y-[10%] rounded-lg shadow-lg -translate-x-full transition-all ease-in-out duration-500",
@@ -107,7 +108,9 @@ const Navigation = () => {
           isResizing && "transition-none"
         )}
       >
-        <div>action items</div>
+        <div>
+          <UserNav />
+        </div>
         <div className="mt-4">documents</div>
         <div
           onMouseDown={handleMouseDown}
@@ -117,7 +120,7 @@ const Navigation = () => {
           onClick={handleCollapse}
           role="button"
           className={cn(
-            "opacity-0 group-hover/sidebar:opacity-100 absolute top-0 right-2 hover:bg-[#fceecc] transition duration-300 cursor-pointer",
+            "opacity-0 group-hover/sidebar:opacity-100 absolute top-1 right-2 hover:bg-[#191919] transition duration-300 cursor-pointer",
             (isCollapse || isMobile) && "hidden"
           )}
         >

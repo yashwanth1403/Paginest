@@ -14,8 +14,8 @@ declare module "next-auth" {
     user: {
       id: string; // Unique identifier for the user
       email: string; // Email address of the user
-      name?: string; // Optional name field
-      // Add any other custom fields you may need
+      name?: string;
+      image?: string;
     };
     expires: string; // Expiration time of the session
   }

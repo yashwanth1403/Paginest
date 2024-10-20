@@ -13,7 +13,7 @@ export default auth(async function middleware(req) {
   const isApiPrefix = pathname.startsWith(Apiprefix);
 
   if (isloggedIn && isAuthRoute) {
-    return NextResponse.redirect(new URL(`${AuthDetails?.user.id}`, req.url));
+    return NextResponse.redirect(new URL(`/documents`, req.url));
   }
   if (isApiPrefix) {
     return NextResponse.next();

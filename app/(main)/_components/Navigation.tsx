@@ -5,6 +5,8 @@ import { useRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserNav from "./UserNav";
 import { ModeToggle } from "@/components/mode-toggle";
+import { signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
   const isMobile = useMediaQuery("(max-width:786px)");
@@ -152,6 +154,13 @@ const Navigation = () => {
         </div>
         <nav className=" ml-20">This is a Document page of paginest</nav>
         <ModeToggle />
+        <Button
+          onClick={async () => {
+            await signOut();
+          }}
+        >
+          signout
+        </Button>
       </div>
     </>
   );

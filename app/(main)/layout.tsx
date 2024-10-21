@@ -13,7 +13,7 @@ export default async function MainLayout({
   }
 
   return (
-    <div className="w-full relative h-full dark:bg-[#191919] text-[#E0E0E0]">
+    <div className="w-full relative h-full dark:bg-[#191919] dark:text-[#E0E0E0]">
       {children}
     </div>
   );

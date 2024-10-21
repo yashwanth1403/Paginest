@@ -6,12 +6,12 @@ const UserNav = () => {
   const { data: session } = useSession();
   const fallbackText = session?.user.name
     ? session.user.name.charAt(0).toUpperCase()
-    : "U"; // Default to 'U' if no name is available
+    : "U";
 
   return (
     <div className="flex items-center gap-2">
       <Avatar className="w-6 h-6">
-        <AvatarImage src={session?.user.image} />
+        <AvatarImage src={session?.user.image} className="w-full h-full" />
         <AvatarFallback>{fallbackText}</AvatarFallback>
       </Avatar>
       <div className="text-sm">{session?.user.name?.toUpperCase()}</div>
